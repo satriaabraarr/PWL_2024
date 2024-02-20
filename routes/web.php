@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/world', function () {
+    return 'World';
+   });
+   
+
 Route::get('/hello', function () {
     return 'Hello World';
    });
