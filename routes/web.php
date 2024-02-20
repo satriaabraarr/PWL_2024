@@ -94,4 +94,3 @@ Route::redirect('/here', '/there');
 // View Routes
 Route::view('/welcome', 'welcome');
 Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
-
