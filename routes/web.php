@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +23,11 @@ Route::get('/world', function () {
     return 'World';
    });   
 
-Route::get('/hello', function () {
-    return 'Hello World';
-   });
+// Route::get('/hello', function () {
+//     return 'Hello World';
+//    });
+
+Route::get('hello', [WelcomeController::class,'hello']);
 
 Route::get('/welcome', function () {
     return 'Selamat Datang';
@@ -75,18 +83,18 @@ Route::domain('{account}.example.com')->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/post', [PostController::class, 'index']);
-    Route::get('/event', [EventController::class, 'index']);
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/user', [dUserController::class, 'index']);
+//     Route::get('/post', [PostController::class, 'index']);
+//     Route::get('/event', [EventController::class, 'index']);
+//     });
 
-// Route Prefixes
-Route::prefix('admin')->group(function () {
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/post', [PostController::class, 'index']);
-    Route::get('/event', [EventController::class, 'index']);
-    });
+// // Route Prefixes
+// Route::prefix('admin')->group(function () {
+//     Route::get('/user', [UserController::class, 'index']);
+//     Route::get('/post', [PostController::class, 'index']);
+//     Route::get('/event', [EventController::class, 'index']);
+//     });
 
 // Redirect Routes
 Route::redirect('/here', '/there');
@@ -94,3 +102,36 @@ Route::redirect('/here', '/there');
 // View Routes
 Route::view('/welcome', 'welcome');
 Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+
+// controller page controller
+Route::get('/', [PageController::class, 'index']);
+Route::get('/about', [PageController::class, 'about']);
+Route::get('/articles/{id}', [PageController::class, 'articles']);
+
+// modifikasi single action controller
+Route::get('/', HomeController::class);
+Route::get('/about', AboutController::class);
+Route::get('/articles/{id}', ArticleController::class);
+
+// resource controller
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+   ]);
+
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+   ]);
+
+// membuat view
+Route::get('/greeting', function () {
+    return view('hello', ['name' => 'Satria']);
+    });
+
+// view dalam direktori
+Route::get('/greeting', function () {
+    return view('blog.hello', ['name' => 'Abrar']);
+    });
+
+// menampilkan view dari controller
+Route::get('/greeting', [WelcomeController::class,
+'greeting']);
